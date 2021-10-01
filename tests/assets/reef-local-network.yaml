@@ -1,0 +1,37 @@
+version: "3.4"
+services:
+  node_alice:
+    env_file:
+      - ../../.env
+    build:
+      context: ${NODE_BUILD_CONTEXT}
+    image: ${NODE_IMAGE}
+    command: --chain=local --tmp --alice --port 30333 --ws-port 9944 --rpc-port 9933 --rpc-methods Auto --rpc-cors all --rpc-external --ws-external
+    ports:
+      - 30333:30333
+      - 9944:9944
+      - 9933:9933
+    tty: true
+    stdin_open: true
+    networks:
+      - net
+    restart: on-failure
+
+  node_bob:
+    image: ${NODE_IMAGE}
+    command: --chain=local --tmp --bob --port 30334 --ws-port 9945 --rpc-port 9934 --rpc-methods Auto --rpc-cors all --rpc-external --ws-external
+    depends_on:
+      - node_alice
+    ports:
+      - 30334:30334
+      - 9945:9945
+      - 9934:9934
+    tty: true
+    stdin_open: true
+    networks:
+      - net
+    restart: on-failure
+
+networks:
+  net:
+    driver: bridge

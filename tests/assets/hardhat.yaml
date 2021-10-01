@@ -1,0 +1,17 @@
+version: "3.4"
+services:
+  hardhat_examples:
+    env_file:
+      - ../../.env
+    build:
+      context: ${HARDHAT_EXAMPLES_BUILD_CONTEXT}
+    image: ${HARDHAT_EXAMPLES_IMAGE}
+    tty: true
+    stdin_open: true
+    networks:
+      - reef_test_net
+
+networks:
+  reef_test_net:
+    external: true
+    driver: bridge
