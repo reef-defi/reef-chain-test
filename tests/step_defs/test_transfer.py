@@ -3,7 +3,7 @@ from pytest_bdd import given, scenarios, then, when
 from reefinterface import ReefInterface
 from reefinterface.base import Keypair
 
-from tests.config import TOLERANCE
+from tests.config import REEF_DECIMALS, TOLERANCE
 from tests.utils import get_balance
 
 scenarios("../features/transfer.feature")
@@ -19,7 +19,7 @@ def alice_sends_reef_to_bob(reef: ReefInterface, alice_key: Keypair, bob_key: Ke
     call = reef.compose_call(
         call_module="Balances",
         call_function="transfer",
-        call_params={"dest": bob_key.public_key, "value": 100000 * 10 ** 18},
+        call_params={"dest": bob_key.public_key, "value": 100000 * REEF_DECIMALS},
     )
     extrinsic = reef.create_signed_extrinsic(call=call, keypair=alice_key)
     receipt = reef.submit_extrinsic(extrinsic, wait_for_inclusion=True)
@@ -31,8 +31,9 @@ def alice_sends_reef_to_bob(reef: ReefInterface, alice_key: Keypair, bob_key: Ke
 )
 def balance_change(reef, alice_key, bob_key, initial_balances, transaction_fee):
     assert get_balance(reef, alice_key) == approx(
-        initial_balances["alice"] - (100000 * 10 ** 18) - transaction_fee, abs=TOLERANCE
+        initial_balances["alice"] - (100000 * REEF_DECIMALS) - transaction_fee,
+        abs=TOLERANCE,
     )
     assert get_balance(reef, bob_key) == approx(
-        initial_balances["bob"] + (100000 * 10 ** 18), abs=TOLERANCE
+        initial_balances["bob"] + (100000 * REEF_DECIMALS), abs=TOLERANCE
     )

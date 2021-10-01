@@ -2,6 +2,7 @@ from pytest_bdd import given, scenarios, then, when
 from reefinterface import ReefInterface
 from reefinterface.base import Keypair
 
+from tests.config import REEF_DECIMALS
 from tests.utils import get_account, get_balance
 
 scenarios("../features/staking.feature")
@@ -24,7 +25,7 @@ def charlie_bonds_reef(
         call_function="bond",
         call_params={
             "controller": charlie_controller.public_key,
-            "value": 100000 * 10 ** 18,
+            "value": 100000 * REEF_DECIMALS,
             "payee": "Stash",
         },
     )
@@ -44,8 +45,8 @@ def bonding_assertions(reef, charlie_stash, charlie_controller):
     # assert staking ledger has been updated
     expected_ledger_entry = {
         "stash": charlie_stash.ss58_address,
-        "total": 100000 * 10 ** 18,
-        "active": 100000 * 10 ** 18,
+        "total": 100000 * REEF_DECIMALS,
+        "active": 100000 * REEF_DECIMALS,
         "unlocking": [],
         "claimedRewards": [],
     }
@@ -58,7 +59,9 @@ def bonding_assertions(reef, charlie_stash, charlie_controller):
 @then("charlies stash account should have 100000 REEF frozen")
 def balance_frozen_assertion(reef, charlie_stash):
     # assert bonded funds are frozen
-    assert get_account(reef, charlie_stash)["data"]["feeFrozen"] == 100000 * 10 ** 18
+    assert (
+        get_account(reef, charlie_stash)["data"]["feeFrozen"] == 100000 * REEF_DECIMALS
+    )
 
 
 @when("charlie nominates alice")
