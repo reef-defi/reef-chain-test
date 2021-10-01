@@ -2,7 +2,7 @@
 name = "reef-test"
 version = "0.1.0"
 description = ""
-authors = ["frisitano <francesco.risitano95@gmail.com>"]
+authors = ["Reef Developers"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
