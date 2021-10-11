@@ -13,3 +13,8 @@ repos:
     rev: v5.6.4
     hooks:
       - id: isort
+
+  - repo: https://github.com/ducminh-phan/reformat-gherkin
+    rev: v2.1.1
+    hooks:
+      - id: reformat-gherkin
