@@ -1,0 +1,22 @@
+version: "3.4"
+services:
+  postgres:
+    image: postgres:13
+    ports:
+      - 5432:5432
+    env_file:
+      - ../../.env
+    environment:
+      POSTGRES_DB: reef
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
+    restart: on-failure
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: on-failure
+    environment:
+      PGADMIN_DEFAULT_EMAIL: test@test.com
+      PGADMIN_DEFAULT_PASSWORD: test
+    ports:
+      - 5050:80

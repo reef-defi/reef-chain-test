@@ -11,5 +11,8 @@ pip-install:
 local-net:
 	docker-compose -f tests/assets/reef-local-network.yaml up -d
 
+postgres:
+	docker-compose -f tests/assets/postgres.yaml up -d
+
 down:
 	docker-compose -f tests/assets/reef-local-network.yaml down
