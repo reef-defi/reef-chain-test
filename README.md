@@ -29,6 +29,33 @@ make pip-install
 make test
 ```
 
+## Storage Inspection
+### To postgres
+It is often of value to have visibility of the state of runtime storage.  Querying and analysing data via rpc can often 
+be limiting and awkward. To improve query and analysis capabilities I have built a connector that allows for runtime 
+storage to be dumped into a postgres database for analysis using SQL.  
+
+Start a postgres database:
+```bash
+make postgres
+```
+
+Dump runtime storage:
+```bash
+python tests/storage.py to_postgres --rpc=wss://rpc-testnet.reefscan.com/ws
+```
+
+Connect to postgres server with client of your choice using connection string: 
+`postgresql://test:test@localhost:5432/storage`
+
+### Storage Comparison
+It is often of interest to understand how runtime storage has changed between two
+blocks.  For example during a runtime upgrade we would like a report of changes.  To this end
+a utility has been developed to produce these reports:
+```bash
+storage.py compare <block_a> <block_b> [--rpc=<rpc>]
+```
+
 ## Configuration
 ### Versioning
 Non python component versions can be specified by updating the docker build context

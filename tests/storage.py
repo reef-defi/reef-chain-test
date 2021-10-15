@@ -9,6 +9,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.engine import Engine
 
 logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("Chain storage util")
 
 PARSER = """
 Chain storage util.
@@ -38,9 +39,6 @@ def cli():
             reef,
             args["--block>"] if args["--block"] else None,
         )
-
-
-logger = logging.getLogger("Chain storage util")
 
 
 def dump_storage(reef: ReefInterface, block_hash: str = None, block_number: int = None):
@@ -113,6 +111,7 @@ def diff_storage_item(a, b, storage_item):
         diff = a[storage_item].compare(b[storage_item])
     else:
         diff = DeepDiff(a[storage_item], b[storage_item], ignore_order=True)
+
     if (isinstance(diff, pd.DataFrame) and not diff.empty) or (
         isinstance(diff, dict) and diff
     ):
