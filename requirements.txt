@@ -480,7 +480,8 @@ pyyaml==5.4.1; python_full_version >= "3.6.1" \
     --hash=sha256:49d4cdd9065b9b6e206d0595fee27a96b5dd22618e7520c33204a4a3239d5b10 \
     --hash=sha256:c20cfa2d49991c8b4147af39859b167664f2ad4561704ee74c1de03318e898db \
     --hash=sha256:607774cbba28732bfa802b54baa7484215f530991055bb562efbed5b2f20a45e
-reef-interface @ git+https://github.com/reef-defi/py-reef-interface.git@dependency-upgrade ; python_version >= "3.6" and python_version < "4"
+reef-interface==1.0.0 ; python_version >= "3.6" and python_version < "4" \
+    --hash=sha256:d9b6b2d407f94d8b2241a40447d8be2d4b0f5b8f279a50b44324facbd02434ab
 regex==2021.10.8; python_full_version >= "3.6.2" \
     --hash=sha256:981c786293a3115bc14c103086ae54e5ee50ca57f4c02ce7cf1b60318d1e8072 \
     --hash=sha256:51feefd58ac38eb91a21921b047da8644155e5678e9066af7bcb30ee0dca7361 \
