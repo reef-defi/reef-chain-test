@@ -13,7 +13,7 @@ PARSER = """
 TPS test util.
 
 Usage:
-  tps.py execute [--rpc=<rpc> --seed=<seed> --target=<target> --tx-count=<tx> --pool-limit=<pool-limit>]
+  tps.py execute [--rpc=<rpc> --seed=<seed> --target=<target> --tx-count=<tx> --pool-limit=<pool-limit> --mnemonic=<mnemonic>]
 
 Options:
   -h --help                   Show this screen.
@@ -22,6 +22,7 @@ Options:
   --target=<target>           ss58 address of target account - default == //Bob [default: 5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty]
   --tx-count=<tx>             number of transactions to submit [default: 10000]
   --pool-limit=<pool-limit>   pool limit [default: 8000]
+  --mnemonic=<mnemonic>       mnemonic phrase
 """
 
 
@@ -33,6 +34,7 @@ def cli():
         submit_extrinsics(
             args["--rpc"],
             args["--seed"],
+            args["--mnemonic"],
             args["--target"],
             int(args["--tx-count"]),
             int(args["--pool-limit"]),
@@ -41,10 +43,16 @@ def cli():
         raise Exception("Command not supported!")
 
 
-def submit_extrinsics(rpc: str, seed: str, target: str, tx_count: int, pool_limit: int):
+def submit_extrinsics(
+    rpc: str, seed: str, mnemonic: str, target: str, tx_count: int, pool_limit: int
+):
     # create reef client and keypair
     reef = ReefInterface(rpc)
-    origin = Keypair.create_from_uri(seed)
+    origin = (
+        Keypair.create_from_mnemonic(mnemonic)
+        if mnemonic
+        else Keypair.create_from_uri(seed)
+    )
 
     # construct extrinsics
     initial_nonce = reef.get_account_nonce(origin.ss58_address)
