@@ -53,7 +53,15 @@ It is often of interest to understand how runtime storage has changed between tw
 blocks.  For example during a runtime upgrade we would like a report of changes.  To this end
 a utility has been developed to produce these reports:
 ```bash
-storage.py compare <block_a> <block_b> [--rpc=<rpc>]
+python tests/storage.py compare <block_a> <block_b> [--rpc=<rpc>]
+```
+
+## TPS Benchmark
+To assess the TPS of the reef chain network we have developed a script that saturates that transaction
+pool such that there are sufficient extrinsics to saturate blocks.  This script can be
+invoked via the following command:
+```bash
+python -m tests.tps.py execute [--rpc=<rpc> --seed=<seed> --target=<target> --tx-count=<tx> --pool-limit=<pool-limit> --mnemonic=<mnemonic> --type=<type>]
 ```
 
 ## Configuration

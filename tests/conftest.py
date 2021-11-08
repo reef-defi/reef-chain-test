@@ -5,6 +5,8 @@ import time
 import pytest
 from reefinterface import Keypair, ReefInterface
 
+from tests.config import ERC2_DEPLOYMENT_BYTECODE
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -78,4 +80,4 @@ def erc20_deployment_bytecode():
         }
     }
     """
-    return open("tests/assets/erc20_deployment_bytecode.txt", "r").read()
+    return ERC2_DEPLOYMENT_BYTECODE

@@ -18,6 +18,8 @@ services:
     restart: on-failure
 
   node_bob:
+    env_file:
+      - ../../.env
     image: ${NODE_IMAGE}
     command: --chain=local --tmp --bob --port 30334 --ws-port 9945 --rpc-port 9934 --rpc-methods Auto --rpc-cors all --rpc-external --ws-external
     depends_on:
