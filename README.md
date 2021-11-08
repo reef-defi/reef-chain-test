@@ -61,7 +61,7 @@ To assess the TPS of the reef chain network we have developed a script that satu
 pool such that there are sufficient extrinsics to saturate blocks.  This script can be
 invoked via the following command:
 ```bash
-python -m tests.tps execute [--rpc=<rpc> --seed=<seed> --target=<target> --tx-count=<tx> --pool-limit=<pool-limit>]
+python -m tests.tps.py execute [--rpc=<rpc> --seed=<seed> --target=<target> --tx-count=<tx> --pool-limit=<pool-limit> --mnemonic=<mnemonic> --type=<type>]
 ```
 
 ## Configuration
