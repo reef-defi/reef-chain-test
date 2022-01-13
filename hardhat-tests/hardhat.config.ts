@@ -26,11 +26,13 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 const config = {
   solidity: "0.8.4",
   networks: {
-    url: "ws://127.0.0.1:9944",
-    scanUrl: "http://localhost:8000",
-    seeds: {
-      "acc": "<MNEMONIC SEED>",
-      "acc2": "<MNEMONIC SEED>",
+    reef_testnet: {
+      url: "ws://127.0.0.1:9944",
+      scanUrl: "http://localhost:8000",
+      seeds: {
+        "acc": "<MNEMONIC SEED>",
+        "acc2": "<MNEMONIC SEED>",
+      }
     }
   }
 };
