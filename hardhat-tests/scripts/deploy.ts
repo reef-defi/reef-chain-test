@@ -5,6 +5,47 @@
 // Runtime Environment's members available in the global scope.
 import { reef } from "hardhat";
 
+const greeterInitialData = { 
+  name: "Greeter",
+  filename: "Greeter.sol",
+  arguments: ["How's your day doing?"],
+}
+
+const multiSigWallerData = {
+  name: "MultiSigWallet",
+  filename: "MultiSigWallet.sol",
+  arguments: [['0x82A258cb20E2ADB4788153cd5eb5839615EcE9a0', '0x69535cB2F9Db4FC5f2867A27a1eD8e6612F787bA', '0x9ADdFbFB23974488e51389A19A38946d102e83fE'], 1],
+}
+
+const factoryTestContract = {
+  name: "FactoryTestContract",
+  filename: "PrecomputeContractAddress.sol",
+  arguments: ["0x9ADdFbFB23974488e51389A19A38946d102e83fE", 1031245],
+}
+
+const uniDirectionalPaymentData = {
+  name: 'UniDirectionalPaymentChannel',
+  filename: "UniDirectionalPaymentChannel.sol",
+  arguments: ["0x82A258cb20E2ADB4788153cd5eb5839615EcE9a0"]
+}
+
+const biDirectionalPaymentData = {
+  name: 'BiDirectionalPayment',
+  filename: 'BiDirectionalPaymentChannel.sol',
+  arguments: [
+    ['0x82A258cb20E2ADB4788153cd5eb5839615EcE9a0', '0x69535cB2F9Db4FC5f2867A27a1eD8e6612F787bA'],
+    ["0", "0"],
+    "12947124124124241812",
+    "100000000"
+  ]
+}
+
+const englishAuctionData = {
+  name: 'EnglishAuction',
+  filename: 'EnglishAuction.sol',
+  arguments: ["0x82A258cb20E2ADB4788153cd5eb5839615EcE9a0", 231, 1223]
+}
+
 async function main() {
   const provider = await reef.getProvider();
   const signer = await reef.getSignerByName("acc");
@@ -30,10 +71,10 @@ async function main() {
 
 
   const Greeter = await reef.getContractFactory("Greeter", signer);
-  const greeter = await Greeter.deploy("Hello, Hardhat!");
+  const greeter = await Greeter.deploy(...greeterInitialData.arguments);
 
   await greeter.deployed();
-  await reef.verifyContract(greeter.address, "Greeter", ["Hello, Hardhat!"])
+  await reef.verifyContract(greeter.address, "Greeter", greeterInitialData.arguments)
 
   console.log("Greeter deployed to:", greeter.address);
 
@@ -71,6 +112,62 @@ async function main() {
 
   console.log("Signer balance 1: ", (await token.balanceOf(address1)).toString());
   console.log("Signer balance 2: ", (await token.balanceOf(address2)).toString());
+
+  console.log("Deploying MultiSigWallet")
+  const MultiSigWallet = await reef.getContractFactory("MultiSigWallet", signer);
+  const multiSigWaller = await MultiSigWallet.deploy(...multiSigWallerData.arguments, {
+    gasLimit: 1000000,
+    customData: { storageLimit: 1000000 }
+  })
+  await multiSigWaller.deployed()
+  
+  console.log("Deploying MerkleTree")
+  const MerkleTree = await reef.getContractFactory("MerkleTree", signer);
+  const merkleTree = await MerkleTree.deploy();
+  await merkleTree.deployed();
+  
+  // NOT working
+  // const TestIterableMap = await reef.getContractFactory("TestIterableMap", signer);
+  // const iterableMapping = await TestIterableMap.deploy();
+  // await iterableMapping.deployed();
+  // console.log(iterableMapping);
+  
+  
+  console.log("Deploying Factory")
+  const Factory = await reef.getContractFactory("Factory", signer);
+  const factory = await Factory.deploy();
+  await factory.deployed();
+  
+  // factory test
+  // const salt = 12345;
+  // const bytecode = await factory.getBytecode(factoryTestContract.arguments[0], factoryTestContract.arguments[1]);
+  // const testContractAddress = await factory.getAddress(bytecode, salt);
+  // // console.log(testContractAddress);
+  // await factory.deployed(bytecode, salt);
+  
+  const MinimumProxyContract = await reef.getContractFactory("MinimalProxy", signer);
+  const minimumProxyContract = await MinimumProxyContract.deploy();
+  await minimumProxyContract.deployed();
+  
+  console.log("Deploying UniDirectionalPaymentChannel")
+  const UniDirectionalPayment = await reef.getContractFactory("UniDirectionalPaymentChannel", signer);
+  const uniDirectionalPayment = await UniDirectionalPayment.deploy(...uniDirectionalPaymentData.arguments);
+  await uniDirectionalPayment.deployed();
+  
+  console.log("Deploying BiDirectionalPaymentChannel")
+  const BiDirectionalPayment = await reef.getContractFactory('BiDirectionalPaymentChannel', signer);
+  const biDirectionalPayment = await BiDirectionalPayment.deploy(...biDirectionalPaymentData.arguments);
+  await biDirectionalPayment.deployed()
+  
+  console.log("Deploying BasicNFT")
+  const BasicNFT = await reef.getContractFactory('BasicNFT', signer);
+  const basicNFT = await BasicNFT.deploy();
+  await basicNFT.deployed();
+  
+  console.log("Deploying EnglishAuction")
+  const EnglishAuction = await reef.getContractFactory('EnglishAuction', signer);
+  const englishAuction = await EnglishAuction.deploy(...englishAuctionData.arguments);
+  await englishAuction.deployed();
 }
 
 // We recommend this pattern to be able to use async/await everywhere
