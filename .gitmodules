@@ -1,0 +1,3 @@
+[submodule "tests/assets/reef-explorer"]
+	path = tests/assets/reef-explorer
+	url = git@github.com:reef-defi/reef-explorer.git
