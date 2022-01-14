@@ -20,6 +20,15 @@ def reef_local_net():
     yield
     subprocess.run("make down".split())
 
+# @pytest.fixture(scope="session", autouse=True)
+# def reef_local_explorer():
+#     logger.info("Starting local explorer")
+#     subprocess.run("make local-explorer".split())
+#     logger.info("Sleeping 5 seconds to wait for local network to start up")
+#     time.sleep(10)
+#     yield
+#     subprocess.run("make local-explorer-down".split())
+
 
 @pytest.fixture(scope="session", autouse=True)
 def reef(reef_local_net):

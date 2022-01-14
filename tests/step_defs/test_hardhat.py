@@ -5,7 +5,6 @@ from pytest_bdd import given, scenarios, then, when
 
 scenarios("../features/hardhat.feature")
 
-
 @given(
     "I deploy a flipper contract using hardhat",
     target_fixture="flipper_contract_initial_state",
@@ -23,8 +22,8 @@ def flipper_deploy(reef_local_net):
 
 
 @when(
-    "I call the flip method on the contract",
-    target_fixture="flipper_contract_final_state",
+  "I call the flip method on the contract",
+  target_fixture="flipper_contract_final_state",
 )
 def flip_flipper(flipper_contract_initial_state):
     result = subprocess.run(
@@ -45,3 +44,19 @@ def flip_flipper(flipper_contract_initial_state):
 @then("I receive the opposite result")
 def assert_flipped(flipper_contract_initial_state, flipper_contract_final_state):
     assert flipper_contract_initial_state["value"] != flipper_contract_final_state
+
+# @given(
+#     "Deploy complete pack of contract from hardhat-reef-examples",
+#     target_fixture="integration_output_pack",
+# )
+# def complete_deploy(_):
+#     result = subprocess.run(
+#         "docker-compose -f tests/assets/hardhat.yaml run hardhat-reef-examples yarn hardhat run scripts/integration-test.js".split(),
+#         capture_output=True,
+#         text=True,
+#     )
+#     result = re.compile(r"\x1b[^m]*m").sub("", result.stdout)
+#     print(result)
+#     # address = result.split("flipper: '")[1].split("'")[0][2:]
+#     # initial_value = result.split("New value: ")[1].split("\n")[0] == "true"
+#     return {}
