@@ -17,7 +17,7 @@ def flipper_deploy(reef_local_net):
         text=True,
     )
     result = re.compile(r"\x1b[^m]*m").sub("", result.stdout)
-    address = result.split("flipper: '")[1].split("'")[0][2:]
+    address = result.split("flipper_contract_address: '")[1].split("'")[0][2:]
     initial_value = result.split("New value: ")[1].split("\n")[0] == "true"
     return {"address": address, "value": initial_value}
 
